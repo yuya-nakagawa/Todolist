@@ -1,4 +1,7 @@
 Rails.application.routes.draw do
   root to: 'toppages#index'
-  # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
+  
+  #usersを扱うルーティング
+  get 'signup', to: 'users#new'
+  resources :users, only: [:create, :edit, :update, :destroy]
 end
