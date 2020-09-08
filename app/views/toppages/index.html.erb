@@ -1,5 +1,29 @@
 <% if logged_in? %>
   <p>ログイン完了ユーザ: <%= current_user.name %></p>
+  <!--タスク追加フォーム-->
+  <div class="text-center">
+    <%= form_with(model: @task, local: true) do |f| %>
+      <div class="form-group">
+        <%= f.text_area :content, class: 'form-control' %>
+      </div>
+      <%= f.submit '追加', class: 'btn btn-primary' %>
+    <% end %>
+  </div>
+  <!--タスク表示-->
+  <ul class="list-unstyled">
+    <% @tasks.each do |task| %>
+      <li>
+        <div>
+          <p><%= task.content %></p>
+        </div>
+        <div>
+          <% if current_user == task.user %>
+            <%= link_to "Delete", task, method: :delete, data: { confirm: "削除してもよろしいでしょうか?" }, class: 'btn btn-danger btn-sm' %>
+          <% end %>
+        </div>
+      </li>
+    <% end %>
+  </ul>
 <% else %>
   <div class="center jumbotron">
     <div class="text-center">
