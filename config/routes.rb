@@ -11,5 +11,10 @@ Rails.application.routes.draw do
   resources :users, only: [:create, :edit, :update, :destroy]
   
   #task
-  resources :tasks, only: [:create, :edit, :update, :destroy]
+  resources :tasks, only: [:create, :edit, :update, :destroy]do
+    member do
+      post :done
+      post :wip
+    end
+  end
 end

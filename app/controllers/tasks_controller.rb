@@ -8,7 +8,7 @@ class TasksController < ApplicationController
       flash[:success] = 'タスクを追加しました'
       redirect_to root_path
     else
-      @task = current_user.tasks.order(id: :desc)
+      @tasks = current_user.tasks.order(id: :desc)
       flash.now[:danger] = 'タスクの追加に失敗しました。'
       render 'toppages/index'
     end
@@ -36,8 +36,25 @@ class TasksController < ApplicationController
     redirect_back(fallback_location: root_path)
   end
   
+  def done
+    @task = Task.find(params[:id])
+
+    
+    @task.update(done: "True")
+    redirect_to root_path
+  end
+  
+  def wip
+    @task = Task.find(params[:id])
+
+    
+    @task.update(done: "False")
+    redirect_to root_path
+  end
+
+  
   def task_params
-    params.require(:task).permit(:content)
+    params.require(:task).permit(:content, :done)
   end
   
   def correct_user
