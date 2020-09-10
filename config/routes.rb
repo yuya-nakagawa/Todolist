@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
   root to: 'toppages#index'
-  
+
   #ログイン
   get 'login', to: 'sessions#new'
   post 'login', to: 'sessions#create'

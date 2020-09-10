@@ -36,6 +36,7 @@ class TasksController < ApplicationController
     redirect_back(fallback_location: root_path)
   end
   
+  #未達ボタン処理
   def done
     @task = Task.find(params[:id])
 
@@ -44,6 +45,7 @@ class TasksController < ApplicationController
     redirect_to root_path
   end
   
+  #達成ボタン処理
   def wip
     @task = Task.find(params[:id])
 
@@ -52,6 +54,7 @@ class TasksController < ApplicationController
     redirect_to root_path
   end
 
+  private
   
   def task_params
     params.require(:task).permit(:content, :done)
