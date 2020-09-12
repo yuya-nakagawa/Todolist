@@ -1,6 +1,8 @@
 class Task < ApplicationRecord
   belongs_to :user
   
+  has_many :sub_tasks, :dependent => :destroy
+  
   validates :content, presence: true, length: { maximum: 50 }
   
   def self.search(search)

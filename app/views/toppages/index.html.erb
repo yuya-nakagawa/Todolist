@@ -1,49 +1,74 @@
 <% if logged_in? %>
-  <p>ログイン完了ユーザ: <%= current_user.name %></p>
-  <!--タスク追加フォーム-->
-  <div class="text-center">
-    <%= form_with(model: @task, local: true) do |f| %>
-      <div class="form-group">
-        <%= f.text_field :content, class: 'form-control' %>
-      </div>
-      <%= f.submit '追加', class: 'btn btn-primary' %>
-    <% end %>
-  </div>
   
   <!--検索フォーム-->
   <%= render 'tasks/search_form' %>
 
+  <!--タスク追加フォーム-->
+  <%= render 'tasks/add_task', task: @task %>
+
   <!--タスク表示-->
   <ul class="list-unstyled">
     <% @tasks.each do |task| %>
-    
-      <div class="card">
-          <!-- カードのタイトル部分として設定 -->
-          <div class="card-header">
-              <!-- 時間に関するFont Awesomeのアイコンを追加 -->
-              <i class="fas fa-clock mr-1"></i><%= task.content %>
+      <li class="card">
+          <div class="card-header container-fluid">
+            <div class="row">
+              <% if current_user == task.user %>
+                <div class="col-2 text-center m-0 p-0">
+                  <%= render 'tasks/done_button', task: task %>
+                </div>
+               <div class="col-8">
+                  <strong><%= task.content %></strong>
+                </div>
+                <div class="col-2 m-0 p-0">
+                  <!--削除ボタン-->
+                  <%= link_to task, method: :delete, data: { confirm: "削除してもよろしいでしょうか?" }, class: 'btn btn-danger btn-sm' do %>
+                    <i class="fas fa-trash-alt"></i>
+                  <% end %>
+                  <!--編集ボタン-->
+                  <%= link_to edit_task_path(task), method: :get, class: 'btn btn-sm btn-primary' do %>
+                    <i class="fas fa-wrench"></i>
+                  <% end %>
+                </div>
+              <% end %>
+            </div>
           </div>
-  
-          <!-- カードの本文部分として設定 -->
-          <div class="card-body">
-              <p>ここにサブタスクが入ります！</p>
-              <%= render 'tasks/done_button', task: task %>
-              <div>
-          <% if current_user == task.user %>
-            <%= link_to "Delete", task, method: :delete, data: { confirm: "削除してもよろしいでしょうか?" }, class: 'btn btn-danger btn-sm' %>
-            <%= link_to 'edit', edit_task_path(task), class: 'btn btn-sm btn-primary' %>
+          <% task.sub_tasks.each do |sub_task| %>
+            <% if sub_task.present?%>
+            <ul>
+              <div class="card-body container-fluid p-1">
+                <li class="row">
+                  <!--達成・未達成ボタン-->
+                  <div class="col-2 text-center m-0 p-0">
+                    <%= render 'tasks/done_button', task: task %>
+                  </div>
+                  <!-- ここにサブタスクを表示 -->
+                  <div class="col-8">
+                    <%= sub_task.content %>
+                  </div>
+                  <!--削除ボタン-->
+                  <div class="col-2 m-0 p-0">
+                    <%= link_to sub_task, method: :delete, data: { confirm: "削除してもよろしいでしょうか?" }, class: 'btn btn-danger btn-sm' do %>
+                      <i class="fas fa-trash-alt"></i>
+                    <% end %>
+                  </div>
+                </li>
+              </duv>
+            </ul>
+            <% end %>
           <% end %>
-        </div>
-          </div>
-      </div>
+      </li>
     <% end %>
   </ul>
 <% else %>
   <div class="center jumbotron">
     <div class="text-center">
       <h1>ToDoリストへようこそ！</h1>
-      <%= link_to '新規登録はこちら', signup_path, class: 'btn btn-lg btn-primary' %>
-      <%= link_to 'ログインはこちら', login_path, class: 'btn btn-lg btn-primary' %>
+      <div class="mt-5">
+        <%= link_to 'ログインはこちら', login_path, class: 'btn btn-lg btn-primary' %>
+      </div>
+      <div class="mt-4">        
+        <%= link_to '新規登録はこちら', signup_path, class: 'btn btn-lg btn-success' %>
+      </div>
     </div>
   </div>
 <% end %>

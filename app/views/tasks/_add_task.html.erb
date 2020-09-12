@@ -1,0 +1,14 @@
+<div class="container">
+    <%= form_with(model: task, local: true) do |f| %>
+      <div class="form-group">
+        <div class="row">
+          <div class="col-6">
+            <%= f.text_field :content, class: 'form-control' %>
+          </div>
+          <div class="col-4">
+            <%= f.submit '追加', class: 'btn btn-primary' %>
+          </div>
+        </div>
+      </div>
+    <% end %>
+</div>

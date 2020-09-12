@@ -1,5 +1,6 @@
 class TasksController < ApplicationController
   before_action :require_user_logged_in
+  before_action :set_task, onky: [:edit, :update, :done, :wip]
   before_action :correct_user, only: [:destroy]
   
   def create
@@ -15,12 +16,10 @@ class TasksController < ApplicationController
   end
 
   def edit
-    @task = Task.find(params[:id])
+    @sub_task = @task.sub_tasks.build
   end
 
   def update
-    @task = Task.find(params[:id])
-    
     if @task.update(task_params)
       flash[:success] = 'タスク名を変更しました'
       redirect_to edit_task_path
@@ -38,23 +37,23 @@ class TasksController < ApplicationController
   
   #未達ボタン処理
   def done
-    @task = Task.find(params[:id])
-
-    
     @task.update(done: "True")
+    flash[:success] = '達成しました。おつかれさまです。'
     redirect_to root_path
   end
   
   #達成ボタン処理
   def wip
-    @task = Task.find(params[:id])
-
-    
     @task.update(done: "False")
+    flash[:secondary] = '状態を戻しました。'
     redirect_to root_path
   end
 
   private
+  
+  def set_task
+    @task = Task.find(params[:id])
+  end
   
   def task_params
     params.require(:task).permit(:content, :done)

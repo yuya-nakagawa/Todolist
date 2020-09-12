@@ -17,4 +17,13 @@ Rails.application.routes.draw do
       post :wip
     end
   end
+  
+  #sub_task
+  resources :sub_tasks, only: [:create, :update, :destroy]do
+    member do
+      post :done
+      post :wip
+    end
+  end
+
 end

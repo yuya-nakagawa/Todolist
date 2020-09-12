@@ -1,5 +1,6 @@
 <% if task.done == "True" %>
-  <%= button_to '完了', wip_task_path(task), method: :post %> 
+  <%= link_to '完了', wip_task_path(task), method: :post, class: 'btn btn-success btn-sm' %> 
 <% else %>
-  <%= button_to '未完了', done_task_path(task), method: :post %>
+  <%= link_to '未完了', done_task_path(task), method: :post, class: 'btn btn-secondary btn-sm' %>
 <% end %>
+

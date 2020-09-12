@@ -10,7 +10,15 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_09_08_114241) do
+ActiveRecord::Schema.define(version: 2020_09_11_224908) do
+
+  create_table "sub_tasks", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.string "content"
+    t.bigint "task_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["task_id"], name: "index_sub_tasks_on_task_id"
+  end
 
   create_table "tasks", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "content"
@@ -29,5 +37,6 @@ ActiveRecord::Schema.define(version: 2020_09_08_114241) do
     t.datetime "updated_at", null: false
   end
 
+  add_foreign_key "sub_tasks", "tasks"
   add_foreign_key "tasks", "users"
 end

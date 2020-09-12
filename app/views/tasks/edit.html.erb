@@ -1,14 +1,52 @@
-<div>
-  <h1><%= @task.content %></h1>
-</div>
-<div>
+<div class="mb-4">
+  <h3 class="d-inline"><%= @task.content %></h3>
   <% if current_user == @task.user %>
-    <%= link_to "Delete", @task, method: :delete, data: { confirm: "削除してもよろしいでしょうか?" }, class: 'btn btn-danger btn-sm' %>
+    <%= link_to @task, method: :delete, data: { confirm: "削除してもよろしいでしょうか?" }, class: 'btn btn-danger btn-sm ml-2 mb-2' do %>
+      <i class="fas fa-trash-alt"></i>
+    <% end %>
   <% end %>
 </div>
-<%= form_with(model: @task, local: true) do |f| %>
-  <%= f.label :content, 'タスク名' %>
-  <%= f.text_field :content %>
 
-  <%= f.submit '変更' %>
-<% end %>
+<div class="container">
+    <%= form_with(model: @task, local: true) do |f| %>
+      <div class="form-group">
+        <div class="row">
+          <div class="col-sm-2 p-0">
+            <%= f.label :content, 'タスク名' %>
+          </div>
+          <div class="col-7 p-0">
+            <%= f.text_field :content, class: 'form-control' %>
+          </div>
+          <div class="col-2">
+            <%= f.submit '変更', class: 'btn btn-primary' %>
+          </div>
+        </div>
+      </div>
+    <% end %>
+</div>
+
+<div class="container">
+    <%= form_with(model: @sub_task, local: true) do |f| %>
+      <div class="form-group">
+        <div class="row">
+          <div class="col-sm-2 p-0">
+            <%= f.label :content, 'サブタスク' %>
+          </div>
+          <div class="col-7 p-0">
+            <%= f.text_field :content, class: 'form-control' %>
+          </div>
+          <div class="col-2">
+            <%= f.submit '追加', class: 'btn btn-primary' %>
+          </div>
+        </div>
+      </div>
+    <% end %>
+</div>
+
+<ul>
+  <% @task.sub_tasks.each do |sub_task| %>
+  <li>
+    <%= sub_task.content %>
+  </li>
+  <% end %>
+</ul>
