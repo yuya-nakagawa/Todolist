@@ -14,7 +14,7 @@
             <div class="row">
               <% if current_user == task.user %>
                 <div class="col-2 text-center m-0 p-0">
-                  <%= render 'tasks/done_button', task: task %>
+                  <%= render 'tasks/task_done_button', task: task %>
                 </div>
                <div class="col-8">
                   <strong><%= task.content %></strong>
@@ -39,7 +39,7 @@
                 <li class="row">
                   <!--達成・未達成ボタン-->
                   <div class="col-2 text-center m-0 p-0">
-                    <%= render 'tasks/done_button', task: task %>
+                    <%= render 'sub_tasks/sub_task_done_button', sub_task: sub_task %>
                   </div>
                   <!-- ここにサブタスクを表示 -->
                   <div class="col-8">
