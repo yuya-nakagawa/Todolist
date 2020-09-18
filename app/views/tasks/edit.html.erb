@@ -44,10 +44,10 @@
     <% end %>
 </div>
 
-<ul>
+<ul class="list-unstyled">
   <% @task.sub_tasks.each do |sub_task| %>
   <li>
-    <%= sub_task.content %>
+    <strong><%= sub_task.content %></strong>
   </li>
   <% end %>
 </ul>

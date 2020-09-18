@@ -13,18 +13,19 @@
           <div class="card-header container-fluid">
             <div class="row">
               <% if current_user == task.user %>
-                <div class="col-sm-2 text-center p-0">
-                  <%= render 'tasks/task_done_button', task: task %>
-                </div>
-               <div class="col-sm-8">
+               <div class="col-9">
+                  <!--達成・未達成ボタン-->
+                  <%= render 'tasks/done_task_button', task: task %>
                   <strong><%= task.content %></strong>
                 </div>
-                <div class="col-sm-2 m-0 p-0">
+                
+                <div class="col-2 text-right p-0">
                   <!--削除ボタン-->
                   <%= link_to task, method: :delete, data: { confirm: "削除してもよろしいでしょうか?" }, class: 'btn btn-danger btn-sm' do %>
                     <i class="fas fa-trash-alt"></i>
                   <% end %>
-                  <!--編集ボタン-->
+
+                      <!--編集ボタン-->
                   <%= link_to edit_task_path(task), method: :get, class: 'btn btn-sm btn-primary' do %>
                     <i class="fas fa-wrench"></i>
                   <% end %>
@@ -32,23 +33,22 @@
               <% end %>
             </div>
           </div>
+          
+          <!--サブタスク表示-->
           <% task.sub_tasks.each do |sub_task| %>
             <% if sub_task.present?%>
             <ul>
               <div class="card-body container-fluid p-1">
                 <li class="row">
-                  <!--達成・未達成ボタン-->
-                  <div class="col-2 text-center m-0 p-0">
-                    <%= render 'sub_tasks/sub_task_done_button', sub_task: sub_task %>
-                  </div>
-                  <!-- ここにサブタスクを表示 -->
-                  <div class="col-8">
+                  <div class="col-9">
+                   <!--達成・未達成ボタン-->
+                   <%= render 'sub_tasks/done_sub_task_button', sub_task: sub_task %>
                     <%= sub_task.content %>
                   </div>
+                  
                   <!--削除ボタン-->
-                  <div class="col-2 m-0 p-0">
+                  <div class="col-2 ml-1 p-0">
                     <%= link_to sub_task, method: :delete, data: { confirm: "削除してもよろしいでしょうか?" }, class: 'btn btn-danger btn-sm' do %>
-                      <%= hidden_field_tag :id, task.id %>
                       <i class="fas fa-trash-alt"></i>
                     <% end %>
                   </div>

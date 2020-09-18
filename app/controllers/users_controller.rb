@@ -1,5 +1,6 @@
 class UsersController < ApplicationController
   before_action :require_user_logged_in, only: [:edit, :update, :destroy]
+  before_action :user_set, only: [:edit, :update, :destroy]
   
   def new
     @user = User.new
@@ -18,12 +19,9 @@ class UsersController < ApplicationController
   end
 
   def edit
-    @user = User.find(params[:id])
   end
 
   def update
-    @user = User.find(params[:id])
-    
     if @user.update(user_params)
       flash[:success] = 'ユーザー情報を変更しました'
       redirect_to edit_user_path
@@ -34,7 +32,6 @@ class UsersController < ApplicationController
   end
 
   def destroy
-    @user = User.find(params[:id])
     @user.destroy
     flash[:success] = 'ユーザを削除しました'
     redirect_back(fallback_location: root_path)
@@ -42,6 +39,10 @@ class UsersController < ApplicationController
   end
   
   private
+  
+  def user_set
+    @user = User.find(params[:id])
+  end
   
   def user_params
     params.require(:user).permit(:name, :email, :password, :password_confirmation)

@@ -1,0 +1,10 @@
+<% if task.done == "True" %>
+  <%= link_to wip_task_path(task), method: :post, class: 'btn btn-success btn-sm' do %> 
+    <i class="fas fa-check"></i>
+  <% end %>
+<% else %>
+  <%= link_to done_task_path(task), method: :post, class: 'btn btn-secondary btn-sm' do %>
+    <i class="fas fa-check"></i>
+  <% end %>
+<% end %>
+

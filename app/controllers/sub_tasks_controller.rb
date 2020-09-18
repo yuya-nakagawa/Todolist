@@ -1,5 +1,6 @@
 class SubTasksController < ApplicationController
   before_action :require_user_logged_in
+  before_action :sub_task_set, only: [:destroy, :done, :wip]
 
   def create
     @task = Task.find(params[:id])
@@ -15,8 +16,6 @@ class SubTasksController < ApplicationController
   end
 
   def destroy
-    @sub_task = SubTask.find(params[:id])
-    
     @sub_task.destroy
     flash[:success] = 'サブタスクを削除しました。'
     redirect_back(fallback_location: root_path)
@@ -24,8 +23,6 @@ class SubTasksController < ApplicationController
   
     #未達ボタン処理
   def done
-    @sub_task = SubTask.find(params[:id])
-
     @sub_task.update(done: "True")
     flash[:success] = '達成しました。おつかれさまです。'
     redirect_to root_path
@@ -33,14 +30,16 @@ class SubTasksController < ApplicationController
   
   #達成ボタン処理
   def wip
-    @sub_task = SubTask.find(params[:id])
-
     @sub_task.update(done: "False")
     flash[:secondary] = '状態を戻しました。'
     redirect_to root_path
   end
   
   private
+  
+  def sub_task_set
+    @sub_task = SubTask.find(params[:id])
+  end
   
   def sub_task_params
     params.require(:sub_task).permit(:content, :done)
