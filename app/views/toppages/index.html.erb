@@ -9,17 +9,17 @@
   <!--タスク表示-->
   <ul class="list-unstyled">
     <% @tasks.each do |task| %>
-      <li class="card">
+      <li class="card mb-1">
           <div class="card-header container-fluid">
             <div class="row">
               <% if current_user == task.user %>
-                <div class="col-2 text-center m-0 p-0">
+                <div class="col-sm-2 text-center p-0">
                   <%= render 'tasks/task_done_button', task: task %>
                 </div>
-               <div class="col-8">
+               <div class="col-sm-8">
                   <strong><%= task.content %></strong>
                 </div>
-                <div class="col-2 m-0 p-0">
+                <div class="col-sm-2 m-0 p-0">
                   <!--削除ボタン-->
                   <%= link_to task, method: :delete, data: { confirm: "削除してもよろしいでしょうか?" }, class: 'btn btn-danger btn-sm' do %>
                     <i class="fas fa-trash-alt"></i>
@@ -48,6 +48,7 @@
                   <!--削除ボタン-->
                   <div class="col-2 m-0 p-0">
                     <%= link_to sub_task, method: :delete, data: { confirm: "削除してもよろしいでしょうか?" }, class: 'btn btn-danger btn-sm' do %>
+                      <%= hidden_field_tag :id, task.id %>
                       <i class="fas fa-trash-alt"></i>
                     <% end %>
                   </div>
